@@ -23,14 +23,12 @@ Button btna,btnb,btnc,btnd,btntrue,btnfalse;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.triviaactivity_mc);
+        setContentView(R.layout.triviaactivity_tf);
         imageView=findViewById(R.id.container);
-        btna = findViewById(R.id.btn_a);
-        btnb= findViewById(R.id.btn_b);
-        btnc = findViewById(R.id.btn_c);
-        btnd = findViewById(R.id.btn_d);
         btntrue = findViewById(R.id.btn_true);
         btnfalse = findViewById(R.id.btn_false);
+        final TextView helloTextView = (TextView) findViewById(R.id.text_view_id);
+
 
 
         Bundle bundle = getIntent().getExtras();
@@ -81,7 +79,7 @@ Button btna,btnb,btnc,btnd,btntrue,btnfalse;
         btnfalse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+
 
 
             }
