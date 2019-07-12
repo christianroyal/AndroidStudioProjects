@@ -3,9 +3,11 @@ package com.example.triviaapi;
 
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -85,7 +87,20 @@ Button btna,btnb,btnc,btnd,btntrue,btnfalse;
             }
         });
 
+        new CountDownTimer(30000, 1000) {
+
+            @Override
+            public void onTick(long l) {
+
+            }
+
+            public void onFinish() {
+
+            }
+        }.start();
+
 
     }
+
 
 }
