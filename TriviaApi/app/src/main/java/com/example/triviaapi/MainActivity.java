@@ -43,15 +43,18 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnT
         recyclerView.setHasFixedSize(true);
 
 
-        volleyRequest(10);
+        volleyRequest(10,"boolean");
+        volleyRequest2(10,"multiple");
+        
         Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
     }
 
-    public void volleyRequest(int count) {
+    public void volleyRequest(int count,String type) {
         //set up Url
         String baseUrl = "https://opentdb.com/api.php";
-        String query = "?amount=10&type=boolean" +count;
-        String url = baseUrl + query;
+        String query1 = "?amount=10" +count;
+        String query2 = "&type=" +type;
+        String url = baseUrl + query1 + query2;
 
         //Declare RequestQueue
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
@@ -76,6 +79,95 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnT
                             // Gson converts the json to the type we specified above
                             List<Question> questions = new Gson().fromJson(jsonArray.toString(), listType);
                            //forming the questions
+                            questions.get(0).getQuestion();
+                            questions.get(1).getQuestion();
+                            questions.get(2).getQuestion();
+                            questions.get(3).getQuestion();
+                            questions.get(4).getQuestion();
+                            questions.get(5).getQuestion();
+                            questions.get(6).getQuestion();
+                            questions.get(7).getQuestion();
+                            questions.get(8).getQuestion();
+                            questions.get(9).getQuestion();
+
+                            //populating the answers
+                            questions.get(0).getCorrectAnswer();
+                            questions.get(1).getCorrectAnswer();
+                            questions.get(2).getCorrectAnswer();
+                            questions.get(3).getCorrectAnswer();
+                            questions.get(4).getCorrectAnswer();
+                            questions.get(5).getCorrectAnswer();
+                            questions.get(6).getCorrectAnswer();
+                            questions.get(7).getCorrectAnswer();
+                            questions.get(8).getCorrectAnswer();
+                            questions.get(9).getCorrectAnswer();
+
+                            //populating wrong answers
+                            questions.get(0).getIncorrectAnswers();
+                            questions.get(1).getIncorrectAnswers();
+                            questions.get(2).getIncorrectAnswers();
+                            questions.get(3).getIncorrectAnswers();
+                            questions.get(4).getIncorrectAnswers();
+                            questions.get(5).getIncorrectAnswers();
+                            questions.get(6).getIncorrectAnswers();
+                            questions.get(7).getIncorrectAnswers();
+                            questions.get(8).getIncorrectAnswers();
+                            questions.get(9).getIncorrectAnswers();
+
+
+
+
+                            Log.d(TAG, "onResponse: " + questions.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+
+        //Step 4 Pass the request object from Step 3 into Requestqueue object from step 2
+        requestQueue.add(request);
+
+
+    }
+
+    public void volleyRequest2(int count,String type) {
+        //set up Url
+        String baseUrl = "https://opentdb.com/api.php";
+        String query1 = "?amount=10" +count;
+        String query2 = "&type=" +type;
+        String url = baseUrl + query1 + query2;
+
+        //Declare RequestQueue
+        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+
+        //Declare JSONArrayRequest or JSONObjectRequest [=Array {=Object...
+        //Then init either structure.....
+        JsonObjectRequest request = new JsonObjectRequest(
+                url,
+                new JSONObject(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            Log.d(TAG, "onResponse: reponse code is " + response.getInt("response_code"));
+
+                            // Get the array of results from the response
+                            JSONArray jsonArray = response.getJSONArray("results");
+
+                            // This creates the type of data we are expecting back from the json
+                            Type listType = new TypeToken<ArrayList<Question>>(){}.getType();
+                            // Gson converts the json to the type we specified above
+                            List<Question> questions = new Gson().fromJson(jsonArray.toString(), listType);
+                            //forming the questions
                             questions.get(0).getQuestion();
                             questions.get(1).getQuestion();
                             questions.get(2).getQuestion();
