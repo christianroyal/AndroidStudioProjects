@@ -2,7 +2,6 @@ package com.example.triviaapi;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import com.example.triviaapi.model.Question;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,99 +25,36 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQuestionClicked {
+public class CategorySelector extends AppCompatActivity implements TriviaAdapter.OnQuestionClicked {
     private static final String TAG = "MainActivity";
     private RecyclerView recyclerView;
     private TriviaAdapter triviaAdapter;
-    Button btnTrue, btnFalse;
-    int currentQuestion = 0;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.trivia_activity_main);
+        setContentView(R.layout.categorylayout);
         recyclerView = findViewById(R.id.rv_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
 
-
-        volleyRequest(15, "boolean","base64");
+        volleyRequest(15, 23);
         //volleyRequest2(10, "multiple");
 
-        Toast.makeText(this, "Compiling Data", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
 
-    }
-
-    public void volleyRequest(int count, String type,String type2) {
+    }    public void volleyRequest(int count, int count2) {
         //set up Url
         String baseUrl = "https://opentdb.com/api.php";
         String query1 = "?amount=10" + count;
-        String query2 = "&type=" + type;
-        String query3 = "&encode" +type2;
-        String url = baseUrl + query1 + query2 +query3;
-
-        //Declare RequestQueue
-        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-
-        //Declare JSONArrayRequest or JSONObjectRequest [=Array {=Object...
-        //Then init either structure.....
-        JsonObjectRequest request = new JsonObjectRequest(
-                url,
-                new JSONObject(),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-                            Log.d(TAG, "onResponse: reponse code is " + response.getInt("response_code"));
-
-                            // Get the array of results from the response
-                            JSONArray jsonArray = response.getJSONArray("results");
-
-                            // This creates the type of data we are expecting back from the json
-                            Type listType = new TypeToken<ArrayList<Question>>() {
-                            }.getType();
-                            // Gson converts the json to the type we specified above
-                            List<Question> questions = new Gson().fromJson(jsonArray.toString(), listType);
-                            //forming the questions
-                            loadRecyclerview(questions);
-
-
-                            Log.d(TAG, "onResponse: " + questions.toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-
-        //Step 4 Pass the request object from Step 3 into Requestqueue object from step 2
-        requestQueue.add(request);
-
-
-    }
-
-
-
-    public void volleyRequest2(int count, String type) {
-        //set up Url
-        String baseUrl = "https://opentdb.com/api.php";
-        String query1 = "?amount=10" + count;
-        String query2 = "&type=" + type;
+        String query2 = "&category=" + count2;
+        //https://opentdb.com/api.php?amount=10&category=23
         String url = baseUrl + query1 + query2;
 
         //Declare RequestQueue
-        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(CategorySelector.this);
 
         //Declare JSONArrayRequest or JSONObjectRequest [=Array {=Object...
         //Then init either structure.....
@@ -167,10 +102,8 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
         requestQueue.add(request);
 
 
-    }
-
-    private void loadRecyclerview(List<Question> strings) {
-        triviaAdapter = new TriviaAdapter(strings, MainActivity.this);
+    }  private void loadRecyclerview(List<Question> strings) {
+        triviaAdapter = new TriviaAdapter(strings, CategorySelector.this);
         recyclerView.setAdapter(triviaAdapter);
 
 
@@ -180,4 +113,6 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
     @Override
     public void questionClicked(Question question) {
 
-}}
+    }
+}
+
