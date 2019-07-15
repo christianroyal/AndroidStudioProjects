@@ -38,8 +38,6 @@ public class TriviaAdapter extends RecyclerView.Adapter<TriviaAdapter.TrivaViewh
             @Override
             public void onClick(View view) {
                 listener.questionClicked(question);
-
-
             }
         });
 
@@ -59,7 +57,7 @@ public class TriviaAdapter extends RecyclerView.Adapter<TriviaAdapter.TrivaViewh
         TrivaViewholder(@NonNull View itemView) {
             super(itemView);
             // ivPhoto = itemView.findViewById(R.id.iv_photo);
-            tvText = itemView.findViewById(R.id.container);
+            tvText = itemView.findViewById(R.id.question_container);
         }
     }
     public interface OnQuestionClicked {

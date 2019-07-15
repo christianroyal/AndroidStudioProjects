@@ -1,8 +1,13 @@
 package com.example.triviaapi;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,18 +33,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQuestionClicked {
+public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQuestionClicked, View.OnClickListener {
     private static final String TAG = "MainActivity";
     private RecyclerView recyclerView;
     private TriviaAdapter triviaAdapter;
     Button btnTrue, btnFalse;
+    private TextView tvQuestion;
     int currentQuestion = 0;
+    private List<Question> questions = new ArrayList<>();
+    private RelativeLayout tflayout;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trivia_activity_main);
+        tvQuestion = findViewById(R.id.question_container);
+        btnTrue = findViewById(R.id.btn_true);
+        btnTrue.setOnClickListener(this);
+        btnFalse = findViewById(R.id.btn_false);
+        btnFalse.setOnClickListener(this);
+
         recyclerView = findViewById(R.id.rv_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
@@ -83,9 +97,17 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
                             Type listType = new TypeToken<ArrayList<Question>>() {
                             }.getType();
                             // Gson converts the json to the type we specified above
-                            List<Question> questions = new Gson().fromJson(jsonArray.toString(), listType);
+                            questions.addAll(new Gson().fromJson(jsonArray.toString(), listType));
                             //forming the questions
-                            loadRecyclerview(questions);
+                            //loadRecyclerview(questions);
+
+                            if (questions.isEmpty()) {
+                              // something went wrong
+                            } else {
+                                loadQuestion();
+                            }
+
+
 
 
                             Log.d(TAG, "onResponse: " + questions.toString());
@@ -180,4 +202,37 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
     @Override
     public void questionClicked(Question question) {
 
-}}
+}
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_true:
+                validateAnswer("True");
+                break;
+            case R.id.btn_false:
+                validateAnswer("False");
+                break;
+        }
+    }
+
+    private void validateAnswer(String selectedChoice) {
+        String correctAnswer = questions.get(currentQuestion).getCorrectAnswer();
+        if (correctAnswer.equals(selectedChoice)) {
+            tvQuestion.setBackgroundColor(Color.GREEN);
+            Toast.makeText(this, "Correct", Toast.LENGTH_LONG).show();
+            // if correct do something
+        } else { tvQuestion.setBackgroundColor(Color.RED);
+            Toast.makeText(this, "Correct", Toast.LENGTH_LONG).show();
+
+        }
+        currentQuestion++;
+        loadQuestion();
+        tvQuestion.setBackgroundColor(Color.WHITE);
+    }
+
+    private void loadQuestion() {
+        String question = questions.get(currentQuestion).getQuestion();
+        tvQuestion.setText(question);
+    }
+}

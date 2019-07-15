@@ -9,7 +9,7 @@
     tools:context="com.example.triviaapi.MainActivity">
 
     <TextView
-        android:id="@+id/container"
+        android:id="@+id/question_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
