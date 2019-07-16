@@ -12,6 +12,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_false"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -20,20 +28,32 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent=".5" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_true"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="True"
+        style="@style/Widget.MaterialComponents.Button"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:fontFamily="cursive"
+        android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_false"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="False"
+        style="@style/Widget.MaterialComponents.Button"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="32sp"
+        android:fontFamily="cursive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline" />

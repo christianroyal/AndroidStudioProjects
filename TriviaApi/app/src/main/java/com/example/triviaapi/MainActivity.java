@@ -40,10 +40,11 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
     private TriviaAdapter triviaAdapter;
     Button btnTrue, btnFalse;
     private TextView tvQuestion;
-    TextView tvValue;
+    Integer score=0;
     int currentQuestion = 0;
-    int totalValue = 0;
+
     private List<Question> questions = new ArrayList<>();
+    private TextView tv;
 
 
     @Override
@@ -221,6 +222,8 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
         if (correctAnswer.equals(selectedChoice)) {
             tvQuestion.setBackgroundColor(Color.GREEN);
             Toast.makeText(this, "Correct", Toast.LENGTH_LONG).show();
+            score= score + 1;
+
             // if correct do something
         } else {
             tvQuestion.setBackgroundColor(Color.RED);

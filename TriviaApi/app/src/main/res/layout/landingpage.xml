@@ -15,11 +15,14 @@
         app:layout_constraintBottom_toTopOf="@id/button"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:text="Play the Game "
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
