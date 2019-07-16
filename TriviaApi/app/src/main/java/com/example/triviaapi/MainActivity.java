@@ -1,12 +1,13 @@
 package com.example.triviaapi;
 
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,9 +40,10 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
     private TriviaAdapter triviaAdapter;
     Button btnTrue, btnFalse;
     private TextView tvQuestion;
+    TextView tvValue;
     int currentQuestion = 0;
+    int totalValue = 0;
     private List<Question> questions = new ArrayList<>();
-    private RelativeLayout tflayout;
 
 
     @Override
@@ -53,27 +55,25 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
         btnTrue.setOnClickListener(this);
         btnFalse = findViewById(R.id.btn_false);
         btnFalse.setOnClickListener(this);
-
         recyclerView = findViewById(R.id.rv_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
 
-
-        volleyRequest(15, "boolean","base64");
+        volleyRequest(10, "boolean");
         //volleyRequest2(10, "multiple");
 
         Toast.makeText(this, "Compiling Data", Toast.LENGTH_SHORT).show();
 
     }
 
-    public void volleyRequest(int count, String type,String type2) {
+    public void volleyRequest(int count, String type) {
         //set up Url
         String baseUrl = "https://opentdb.com/api.php";
-        String query1 = "?amount=10" + count;
+        String query1 = "?amount=" + count;
         String query2 = "&type=" + type;
-        String query3 = "&encode" +type2;
-        String url = baseUrl + query1 + query2 +query3;
+
+        String url = baseUrl + query1 + query2;
 
         //Declare RequestQueue
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
@@ -102,12 +102,10 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
                             //loadRecyclerview(questions);
 
                             if (questions.isEmpty()) {
-                              // something went wrong
+                                finish();
                             } else {
                                 loadQuestion();
                             }
-
-
 
 
                             Log.d(TAG, "onResponse: " + questions.toString());
@@ -130,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
 
 
     }
-
 
 
     public void volleyRequest2(int count, String type) {
@@ -163,7 +160,8 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
                                 Log.d(TAG, "onResponse: " + jsonArray.toString());
 
                                 // This creates the type of data we are expecting back from the json
-                                Type listType = new TypeToken<ArrayList<Question>>() {}.getType();
+                                Type listType = new TypeToken<ArrayList<Question>>() {
+                                }.getType();
                                 // Gson converts the json to the type we specified above
                                 List<Question> questions = new Gson().fromJson(jsonArray.toString(), listType);
 
@@ -173,7 +171,8 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        }loadRecyclerview(questionList);
+                        }
+                        loadRecyclerview(questionList);
 
                     }
 
@@ -202,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
     @Override
     public void questionClicked(Question question) {
 
-}
+    }
 
     @Override
     public void onClick(View view) {
@@ -214,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
                 validateAnswer("False");
                 break;
         }
+
     }
 
     private void validateAnswer(String selectedChoice) {
@@ -222,8 +222,9 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
             tvQuestion.setBackgroundColor(Color.GREEN);
             Toast.makeText(this, "Correct", Toast.LENGTH_LONG).show();
             // if correct do something
-        } else { tvQuestion.setBackgroundColor(Color.RED);
-            Toast.makeText(this, "Correct", Toast.LENGTH_LONG).show();
+        } else {
+            tvQuestion.setBackgroundColor(Color.RED);
+            Toast.makeText(this, "InCorrect", Toast.LENGTH_LONG).show();
 
         }
         currentQuestion++;
@@ -232,7 +233,18 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
     }
 
     private void loadQuestion() {
-        String question = questions.get(currentQuestion).getQuestion();
-        tvQuestion.setText(question);
+        if (currentQuestion<questions.size()) {
+
+
+            String question = questions.get(currentQuestion).getQuestion();
+            tvQuestion.setText(Html.fromHtml(question));
+        } else {
+
+            Intent intent = new Intent(getApplicationContext(), LandingPage.class);
+            startActivity(intent);
+
+
+        }
+
     }
 }
