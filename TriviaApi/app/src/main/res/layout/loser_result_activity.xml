@@ -7,23 +7,22 @@
     tools:context="com.example.triviaapi.MainActivity">
 
     <ImageView
-        android:id="@+id/winner"
+        android:id="@+id/loser"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@mipmap/sam"
-        app:layout_constraintBottom_toTopOf="@id/repeat"
+        android:background="@mipmap/bigdummy"
+        app:layout_constraintBottom_toTopOf="@id/mulligan"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/repeat"
+        android:id="@+id/mulligan"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:text="Say! Play Again...I Dare You! "
-        android:textStyle="bold"
-        android:textSize="32sp"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:text="Try Again "
+        android:textSize="65sp"
         android:background="@color/colorPrimary"
         android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"

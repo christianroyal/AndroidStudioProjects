@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
     private TriviaAdapter triviaAdapter;
     Button btnTrue, btnFalse;
     private TextView tvQuestion;
-    Integer score=0;
+    Integer score = 0;
     int currentQuestion = 0;
 
     private List<Question> questions = new ArrayList<>();
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
         recyclerView.setHasFixedSize(true);
 
 
-        volleyRequest(10, "boolean");
+        volleyRequest(15, "boolean");
         //volleyRequest2(10, "multiple");
 
         Toast.makeText(this, "Compiling Data", Toast.LENGTH_SHORT).show();
@@ -218,36 +218,42 @@ public class MainActivity extends AppCompatActivity implements TriviaAdapter.OnQ
     }
 
     private void validateAnswer(String selectedChoice) {
-        String correctAnswer = questions.get(currentQuestion).getCorrectAnswer();
-        if (correctAnswer.equals(selectedChoice)) {
-            tvQuestion.setBackgroundColor(Color.GREEN);
-            Toast.makeText(this, "Correct", Toast.LENGTH_LONG).show();
-            score= score + 1;
+        if (currentQuestion < questions.size()) {
+            String correctAnswer = questions.get(currentQuestion).getCorrectAnswer();
+            if (correctAnswer.equals(selectedChoice)) {
+                tvQuestion.setBackgroundColor(Color.GREEN);
+                Toast.makeText(this, "Correct", Toast.LENGTH_LONG).show();
+                score = score + 1;
 
-            // if correct do something
+                // if correct do something
+            } else {
+                tvQuestion.setBackgroundColor(Color.RED);
+                Toast.makeText(this, "InCorrect", Toast.LENGTH_LONG).show();
+
+            }
+            loadQuestion();
+            tvQuestion.setBackgroundColor(Color.WHITE);
+
+
         } else {
-            tvQuestion.setBackgroundColor(Color.RED);
-            Toast.makeText(this, "InCorrect", Toast.LENGTH_LONG).show();
+            if (score > 5) {
+                Intent intent = new Intent(getApplicationContext(), EndResult.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(getApplicationContext(), LoserResult.class);
+                startActivity(intent);
+
+
+            }
 
         }
-        currentQuestion++;
-        loadQuestion();
-        tvQuestion.setBackgroundColor(Color.WHITE);
+
+
     }
 
     private void loadQuestion() {
-        if (currentQuestion<questions.size()) {
-
-
-            String question = questions.get(currentQuestion).getQuestion();
-            tvQuestion.setText(Html.fromHtml(question));
-        } else {
-
-            Intent intent = new Intent(getApplicationContext(), LandingPage.class);
-            startActivity(intent);
-
-
-        }
-
+        String question = questions.get(currentQuestion).getQuestion();
+        tvQuestion.setText(Html.fromHtml(question));
+        currentQuestion++;
     }
 }

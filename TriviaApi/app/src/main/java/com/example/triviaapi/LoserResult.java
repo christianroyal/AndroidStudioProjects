@@ -8,13 +8,13 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class EndResult extends AppCompatActivity implements View.OnClickListener {
+public class LoserResult extends AppCompatActivity implements View.OnClickListener {
     Button button;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.winner_result_activity);
-        button = findViewById(R.id.repeat);
+        setContentView(R.layout.loser_result_activity);
+        button = findViewById(R.id.mulligan);
         button.setOnClickListener(this);
     }
 
@@ -24,3 +24,4 @@ public class EndResult extends AppCompatActivity implements View.OnClickListener
         startActivity(intent);
     }
 }
+
